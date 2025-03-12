@@ -39,6 +39,7 @@ input   ap_rst_n,
 
 output $COUNT_RANGE$ count,
 output $COUNT_RANGE$ maxcount,
+output $COUNT_RANGE$ txncount,
 
 //- AXI Stream - Input --------------
 output   in0_V_TREADY,
@@ -59,7 +60,7 @@ output  $OUT_RANGE$ out_V_TDATA
 			.clk(ap_clk), .rst(!ap_rst_n),
 			.idat(in0_V_TDATA), .ivld(in0_V_TVALID), .irdy(in0_V_TREADY),
 			.odat(out_V_TDATA), .ovld(out_V_TVALID), .ordy(out_V_TREADY),
-			.count(count), .maxcount(maxcount)
+			.count(count), .maxcount(maxcount), .txncount(txncount)
 		);
 	"q_srl":
 		Q_srl #(

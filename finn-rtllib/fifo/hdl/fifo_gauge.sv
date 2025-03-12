@@ -48,6 +48,7 @@ module fifo_gauge #(
 	input	logic  ordy,
 
 	output	logic [COUNT_WIDTH-1:0]  count,
+	output	logic [COUNT_WIDTH-1:0]  txncount,
 	output	logic [COUNT_WIDTH-1:0]  maxcount
 );
 
@@ -55,6 +56,7 @@ module fifo_gauge #(
 	logic [WIDTH-1:0]  Q[$] = {};
 	logic [COUNT_WIDTH-1:0]  Count    = 0;
 	logic [COUNT_WIDTH-1:0]  MaxCount = 0;
+	logic [COUNT_WIDTH-1:0]  TxnCount = 0;
 
 	logic  OVld = 0;
 	logic [WIDTH-1:0]  ODat = 'x;
@@ -64,6 +66,7 @@ module fifo_gauge #(
 			Q        <= {};
 			Count    <= 0;
 			MaxCount <= 0;
+			TxnCount <= 0;
 			OVld <= 0;
 			ODat <= 'x;
 		end
@@ -74,6 +77,7 @@ module fifo_gauge #(
 			// Take Count
 			Count <= Q.size;
 			if(Q.size > MaxCount)  MaxCount <= Q.size;
+			if(ivld)  TxnCount <= TxnCount + 1;
 
 			// Offer output when available
 			if(!OVld || ordy) begin
@@ -94,5 +98,6 @@ module fifo_gauge #(
 
 	assign	count = Count;
 	assign	maxcount = MaxCount;
+	assign  txncount = TxnCount;
 
 endmodule : fifo_gauge

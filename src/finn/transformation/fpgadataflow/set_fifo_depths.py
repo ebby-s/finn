@@ -222,13 +222,16 @@ def xsi_fifosim(model, n_inferences, max_iters=None, throttle_cycles=0):
     fifo_log = []
     fifo_log_templ = '    results_file << "maxcount%s" << "\\t" '
     fifo_log_templ += '<< to_string(read_signal_uint("maxcount%s")) << endl;'
+    fifo_log_templ += '    results_file << "txncount%s" << "\\t" '
+    fifo_log_templ += '<< to_string(read_signal_uint("txncount%s")) << endl; // %d'
     fifo_nodes = model.get_nodes_by_op_type("StreamingFIFO_rtl")
     fifo_ind = 0
     for fifo_node in fifo_nodes:
         fifo_node = getCustomOp(fifo_node)
         if fifo_node.get_nodeattr("depth_monitor") == 1:
+            cnt = fifo_node.get_number_output_values()
             suffix = "" if fifo_ind == 0 else "_%d" % fifo_ind
-            fifo_log.append(fifo_log_templ % (suffix, suffix))
+            fifo_log.append(fifo_log_templ % (suffix, suffix, suffix, suffix, cnt))
             fifo_ind += 1
     fifo_log = "\n".join(fifo_log)
     # run XSI sim with postproc
