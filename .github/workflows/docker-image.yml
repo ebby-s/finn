@@ -2,7 +2,9 @@ name: DockerImage
 
 on:
   push:
-    branches: [ dev ]
+    branches:
+      - dev
+      - update/gha
 
 jobs:
   docker:
