@@ -30,6 +30,8 @@ jobs:
           context: .
           push: true
           tags: maltanar/finn:dev_latest
+          build-flags: |
+            --no-cache
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
